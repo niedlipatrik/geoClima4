@@ -3,6 +3,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
+import { MainCard } from './components/MainCard' 
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
@@ -13,15 +15,20 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
-        <Text style={styles.iconRefresh}>
-          <SimpleLineIcons name="refresh" size={24} color="blue" />
-        </Text>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity>
+          <Text style={styles.iconRefresh}>
+            <SimpleLineIcons name="refresh" size={34} color="blue" />
+          </Text>
+        </TouchableOpacity>
+      </View>
       <Text><MaterialCommunityIcons name="weather-sunny" size={24} color="black" /></Text>
       <Text style={styles.tempText}>{tempAtual} <MaterialCommunityIcons name="temperature-celsius" size={30} color="grey" /></Text>
       <StatusBar style="auto" />
-    </View>
+      <View>
+        <MainCard></MainCard>
+      </View>
+      </View>
   );
 }
 
@@ -40,6 +47,8 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   iconRefresh: {
-    alignItems: "flex-end",
+    alignSelf: "flex-end",
+    margin: 10,
+    marginTop: 30,
   }
 });
