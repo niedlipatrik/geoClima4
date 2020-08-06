@@ -1,0 +1,12 @@
+{
+  "name": "geoClima4",
+  "displayName": "geoClima4",
+  "expo": {
+    "name": "geoClima4",
+    "slug": "geoClima4",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
