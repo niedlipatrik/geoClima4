@@ -12,21 +12,28 @@ import { Entypo } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
 export default function App() {
+  setCurrentWeather()
 
   const image = { uri: "https://reactjs.org/logo-og.png" };
 
-  const [tempAtual, setTempAtual] = useState('27')
 
-  const [currentTemperature, setCurrentTemperature] = useState('31')
+  const [currentTemperature, setCurrentTemperature] = useState('')
 
   const [locationCoords, setLocationCoords] = useState(null);
 
-  const [locationName, setLocationName] = useState('Espanha, Madrid')
+  const [locationName, setLocationName] = useState('')
 
-  const [temperatureMin, setTemperatureMin] = useState('21')
-  const [temperatureMax, setTemperatureMax] = useState('32')
-  const [wind, setWind] = useState('7')
-  const [humidity, setHumidity] = useState('68')
+
+
+
+  state = {
+    rate: 1,
+    volume: 1,
+    repeat: true,
+    resizeMode: "cover",
+    duration: 0.0,
+    currentTime: 0.0,
+  };
 
   async function getLocation() {
     let { status } = await Location.requestPermissionsAsync()
@@ -60,23 +67,25 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Video source={{uri: "background"}}   // Can be a URL or a local file.
-       ref={(ref) => {
-         this.player = ref
-       }}                                      // Store reference
-       onBuffer={this.onBuffer}                // Callback when remote video is buffering
-       onError={this.videoError}               // Callback when video cannot be loaded
-       style={styles.backgroundVideo} />
-          <ImageBackground source={image} style={styles.image}>
-      <View>
-        <TouchableOpacity style={styles.iconRefresh} onPress={() => setCurrentWeather()}>
-          <SimpleLineIcons name="refresh" size={34} color="blue" />
-        </TouchableOpacity>
+      <Video source={{ uri: "https://n1soluciones.es/img/skyVideo.mp4" }}
+        ref={(ref) => {
+          this.player = ref
+        }}
+        onBuffer={this.onBuffer}
+        resizeMode={this.state.resizeMode}
+        repeat={this.state.repeat}
+        onError={this.videoError}
+        style={styles.backgroundVideo} />
+      <View style={styles.cardTemp}>
+        <Text style={styles.tempText}>{currentTemperature}<MaterialCommunityIcons name="temperature-celsius" size={30} color="#434aaa" /></Text>
+        <Text style={styles.localizationText}><Entypo name="location-pin" size={24} color="blue" /> {locationName}</Text>
+        <StatusBar style="auto" />
       </View>
-      <Text style={styles.tempText}>{currentTemperature}<MaterialCommunityIcons name="temperature-celsius" size={30} color="grey" /></Text>
-      <Text style={styles.localizationText}><Entypo name="location-pin" size={24} color="blue" /> {locationName}</Text>
-      <StatusBar style="auto" />
-      </ImageBackground>
+      <View >
+          <TouchableOpacity style={styles.cardRefresh} onPress={() => setCurrentWeather()}>
+            <SimpleLineIcons name="refresh" size={34} color="blue" />
+          </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -94,6 +103,7 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+
   },
   viewTemp: {
     marginTop: 10,
@@ -101,15 +111,33 @@ const styles = StyleSheet.create({
   },
   tempText: {
     fontSize: 45,
-    color: '#fa2',
-  },
-  iconRefresh: {
-    alignSelf: "flex-end",
-    margin: 10,
-    marginTop: 30,
+    color: 'blue',
   },
   localizationText: {
     fontSize: 24,
-    color: '#fa2',
+    color: '#434aaa',
+  },
+  cardTemp: {
+    backgroundColor: 'rgba(255,255,255,0.56)',
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 10,
+    marginBottom: 10,
+    paddingTop: 40,
+    paddingBottom: 60,
+    paddingRight:50,
+    paddingLeft:50,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardRefresh: {
+    backgroundColor: 'rgba(255,255,255,0.56)',
+    marginTop:50,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingRight:20,
+    paddingLeft:20,
+    borderRadius: 100,
   }
 });
