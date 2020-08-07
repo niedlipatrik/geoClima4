@@ -5,12 +5,15 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 
 import getCurrentWeather from './services/ApiWeather'
+import Video from 'react-native-video'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
 export default function App() {
+
+  const image = { uri: "https://reactjs.org/logo-og.png" };
 
   const [tempAtual, setTempAtual] = useState('27')
 
@@ -57,6 +60,14 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Video source={{uri: "background"}}   // Can be a URL or a local file.
+       ref={(ref) => {
+         this.player = ref
+       }}                                      // Store reference
+       onBuffer={this.onBuffer}                // Callback when remote video is buffering
+       onError={this.videoError}               // Callback when video cannot be loaded
+       style={styles.backgroundVideo} />
+          <ImageBackground source={image} style={styles.image}>
       <View>
         <TouchableOpacity style={styles.iconRefresh} onPress={() => setCurrentWeather()}>
           <SimpleLineIcons name="refresh" size={34} color="blue" />
@@ -65,6 +76,7 @@ export default function App() {
       <Text style={styles.tempText}>{currentTemperature}<MaterialCommunityIcons name="temperature-celsius" size={30} color="grey" /></Text>
       <Text style={styles.localizationText}><Entypo name="location-pin" size={24} color="blue" /> {locationName}</Text>
       <StatusBar style="auto" />
+      </ImageBackground>
     </View>
   );
 }
@@ -75,6 +87,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
   viewTemp: {
     marginTop: 10,
